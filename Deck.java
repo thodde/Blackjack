@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Deck {
 	private Card deck[];
 	private final int size = 52;
@@ -5,6 +7,8 @@ public class Deck {
 
 	private String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
     private String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+    private String[] value = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "10", "10" };
+    public HashMap<String, String> values = new HashMap<String, String>();
 
     private int currentSize;
     private int topCardIndex;
@@ -19,6 +23,8 @@ public class Deck {
 	    for (int i = 0; i < fullDeckSize; i++) {
 	        Card card = new Card(ranks[i % 13], suits[i % 4]); //Instantiate a Card
 	        this.deck[i] = card;   //Adding card to the Deck
+	        // the hash map will allow us to obtain the actual values of the cards
+	        values.put(ranks[i % 13], value[i % 13]);
 	    }
 	}
 
@@ -48,19 +54,20 @@ public class Deck {
 		System.out.println();
 	}
 
-	public Card[] deal(int howMany) {
-		if (currentSize == 0 || (currentSize - howMany <= 0)) {
+	public int getValue(Card c) {
+		return (int)Integer.parseInt(values.get(c.getRank()));
+	}
+
+	public Card deal() {
+		if (currentSize == 0 || (currentSize - 1 <= 0)) {
 			System.out.println("Out of cards!");
 			return null;
 		}
 		else {
-			currentSize -= howMany;
-			Card[] drawnCards = new Card[howMany];
-        	for(int index = 0; index < howMany; index++) {
-            	drawnCards[index] = deck[topCardIndex];
-            	topCardIndex++;
-        	}
-        	return drawnCards;
+			currentSize--;
+        	Card drawnCard = deck[topCardIndex];
+        	topCardIndex++;
+        	return drawnCard;
 		} 
 	}
 }
