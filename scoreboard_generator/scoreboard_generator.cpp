@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "mysql_connection.h"
 
@@ -22,7 +23,21 @@ class UserInfo {
 public:
 	void set_info(string, int, int, int);
 	UserInfo get_info();
+	int get_wins();
+	string get_name();
 };
+
+int UserInfo::get_wins() {
+	return this->wins;
+}
+
+string UserInfo::get_name() {
+	return this->name;
+}
+
+bool sortByWins(UserInfo &A, UserInfo &B) {
+    return (A.get_wins() > B.get_wins());
+}
 
 void UserInfo::set_info(string name, int id, int wins, int losses) {
 	this->name = name;
@@ -69,6 +84,12 @@ int main() {
 	}
 	catch (sql::SQLException &e) {
 		cout << "Database connection error." << endl;
+	}
+
+	sort(scoreboard.begin(), scoreboard.end(), sortByWins);
+
+	for (int i = 0; i < scoreboard.size(); i++) {
+    	cout << scoreboard[i].get_name() << endl;
 	}
 
 	return 0;
