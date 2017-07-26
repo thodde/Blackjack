@@ -15,6 +15,7 @@
 
 using namespace std;
 
+// simple user class for storing the info retrieved from the database
 class UserInfo {
 	string name;
 	int wins;
@@ -27,18 +28,22 @@ public:
 	string get_name();
 };
 
+// return the amount of wins the user has
 int UserInfo::get_wins() {
 	return this->wins;
 }
 
+// return the users name
 string UserInfo::get_name() {
 	return this->name;
 }
 
+// define a way to sort which user has the larger number of wins
 bool sortByWins(UserInfo &A, UserInfo &B) {
     return (A.get_wins() > B.get_wins());
 }
 
+// basically a lazy constructor
 void UserInfo::set_info(string name, int id, int wins, int losses) {
 	this->name = name;
 	this->id = id;
@@ -86,10 +91,12 @@ int main() {
 		cout << "Database connection error." << endl;
 	}
 
+	// sort the scoreboard vector from start to finish using wins as the sort operator
 	sort(scoreboard.begin(), scoreboard.end(), sortByWins);
 
+	// display the sorted vector
 	for (int i = 0; i < scoreboard.size(); i++) {
-    	cout << scoreboard[i].get_name() << endl;
+    	cout << "Wins: " << scoreboard[i].get_wins() << " Name: " << scoreboard[i].get_name() << endl;
 	}
 
 	return 0;
