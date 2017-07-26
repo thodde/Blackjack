@@ -54,6 +54,7 @@ public class Deck {
 		System.out.println();
 	}
 
+	// we care about how much the card is worth
 	public int getValue(Card c) {
 		return (int)Integer.parseInt(values.get(c.getRank()));
 	}
